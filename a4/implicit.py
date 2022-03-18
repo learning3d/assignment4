@@ -256,13 +256,6 @@ class NeuralSurface(torch.nn.Module):
             )[0]
         
         return distance, gradient
-
-    def get_distance_and_gradient(
-        self,
-        points
-    ):
-        distance_feature, gradient = self.get_distance_feature_and_gradient(points)
-        return distance_feature[..., :1], gradient
     
     def forward(self, points):
         return self.get_distance(points)

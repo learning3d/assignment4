@@ -2,7 +2,7 @@ import torch
 import torch.nn.functional as F
 
 def eikonal_loss(gradients):
-    # TODO (2): Implement eikonal loss
+    # TODO (Q2): Implement eikonal loss on Nx3 gradients
     pass
 
 def sphere_loss(signed_distance, points, radius=1.0):

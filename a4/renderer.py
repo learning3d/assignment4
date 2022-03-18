@@ -21,10 +21,10 @@ class SphereTracingRenderer(torch.nn.Module):
     def sphere_tracing(
         self,
         implicit_fn,
-        origins,
-        directions,
+        origins, # Nx3
+        directions, # Nx3
     ):
-        # TODO (1): Implement sphere tracing
+        # TODO (Q1): Implement sphere tracing
         # 1) Iteratively update points and distance to the closest surface
         #   in order to compute intersection points of rays with the implicit surface
         # 2) Maintain a mask with the same batch dimension as the ray origins,
@@ -77,7 +77,7 @@ class SphereTracingRenderer(torch.nn.Module):
 
 
 def sdf_to_density(signed_distance, alpha, beta):
-    # TODO (3): Convert signed distance to density with alpha, beta parameters
+    # TODO (Q3): Convert signed distance to density with alpha, beta parameters
     pass
 
 class VolumeSDFRenderer(torch.nn.Module):
@@ -98,7 +98,7 @@ class VolumeSDFRenderer(torch.nn.Module):
         rays_density: torch.Tensor,
         eps: float = 1e-10
     ):
-        # TODO (3): Copy code from VolumeRenderer._compute_weights
+        # TODO (Q3): Copy code from VolumeRenderer._compute_weights
         pass
     
     def _aggregate(
@@ -106,7 +106,7 @@ class VolumeSDFRenderer(torch.nn.Module):
         weights: torch.Tensor,
         rays_color: torch.Tensor
     ):
-        # TODO (3): Copy code from VolumeRenderer._aggregate
+        # TODO (Q3): Copy code from VolumeRenderer._aggregate
         pass
 
     def forward(
@@ -130,7 +130,7 @@ class VolumeSDFRenderer(torch.nn.Module):
             # Call implicit function with sample points
             distance, color = implicit_fn.get_distance_color(cur_ray_bundle.sample_points)
             color = color.view(-1, n_pts, 3)
-            density = None # TODO (3): convert SDF to density
+            density = None # TODO (Q3): convert SDF to density
 
             # Compute length of each ray segment
             depth_values = cur_ray_bundle.sample_lengths[..., 0]

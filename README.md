@@ -46,15 +46,17 @@ This should save save `part_2_input.gif` and `part_2.gif` in the `images` folder
 
 ##  3. VolSDF (30 pts)
 
-In this part, you will implement a function converting SDF -> volume density. 
 
-Read section 3.1 of the [VolSDF Paper](https://arxiv.org/pdf/2106.12052.pdf) and implement their formula converting signed distance to density in the `sdf_to_density` function in `a4/renderer.py`. In your write-up, give an intuitive explanation of what the parameters `alpha` and `beta` are doing here. Also, answer the following questions:
+In this part, you will implement a function converting SDF -> volume density and extend the `NeuralSurface` class to predict color. 
 
+* **Color Prediction**: Extend the the `NeuralSurface` class to predict per-point color. You may need to define a new MLP (a just a few new layers depending on how you implemented Q2). You should then implement the `get_color` and `get_distance_color` functions.
+
+* **SDF to Density**: Read section 3.1 of the [VolSDF Paper](https://arxiv.org/pdf/2106.12052.pdf) and implement their formula converting signed distance to density in the `sdf_to_density` function in `a4/renderer.py`. In your write-up, give an intuitive explanation of what the parameters `alpha` and `beta` are doing here. Also, answer the following questions:
 1. How does high `beta` bias your learned SDF? What about low `beta`?
 2. Would an SDF be easier to train with volume rendering and low `beta` or high `beta`? Why?
 3. Would you be more likely to learn an accurate surface with high `beta` or low `beta`? Why?
 
-After implementing `sdf_to_density`, train an SDF on the lego bulldozer model with
+After implementing these, train an SDF on the lego bulldozer model with
 
 ```bash
 python -m a4.main --config-name=volsdf
@@ -63,6 +65,7 @@ python -m a4.main --config-name=volsdf
 This will save `part_3_geometry.gif` and `part_3.gif`. Experiment with hyper-parameters to and attach your best results on your webpage. Comment on the settings you chose, and why they seem to work well.
 
 ![Bulldozer geometry](images/part_3_geometry.gif) ![Bulldozer color](images/part_3.gif)
+
 
 ## 4. Neural Surface Extras (CHOOSE ONE! More than one is extra credit)
 

@@ -221,21 +221,55 @@ class MLPWithInputSkips(torch.nn.Module):
         return y
 
 
-# TODO (2): Implement Neural Surface MLP
 class NeuralSurface(torch.nn.Module):
     def __init__(
         self,
         cfg,
     ):
         super().__init__()
+        # TODO (Q2): Implement Neural Surface MLP to output per-point SDF
+        # TODO (Q3): Implement Neural Surface MLP to output per-point color
 
     def get_distance(
         self,
         points
     ):
+        '''
+        TODO: Q2
+        Output:
+            distance: N X 1 Tensor, where N is number of input points
+        '''
+        points = points.view(-1, 3)
         pass
+    
+    def get_color(
+        self,
+        points
+    ):
+        '''
+        TODO: Q3
+        Output:
+            distance: N X 3 Tensor, where N is number of input points
+        '''
+        points = points.view(-1, 3)
+        pass
+    
+    def get_distance_color(
+        self,
+        points
+    ):
+        '''
+        TODO: Q3
+        Output:
+            distance, points: N X 1, N X 3 Tensors, where N is number of input points
+        You may just implement this by independent calls to get_distance, get_color
+            but, depending on your MLP implementation, it maybe more efficient to share some computation
+        '''
+        
+    def forward(self, points):
+        return self.get_distance(points)
 
-    def get_distance_and_gradient(
+    def get_distance_gradient(
         self,
         points
     ):
@@ -255,10 +289,7 @@ class NeuralSurface(torch.nn.Module):
                 only_inputs=True
             )[0]
         
-        return distance, gradient
-    
-    def forward(self, points):
-        return self.get_distance(points)
+        return distance_feature, gradient
 
 
 implicit_dict = {

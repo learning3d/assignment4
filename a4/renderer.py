@@ -24,6 +24,16 @@ class SphereTracingRenderer(torch.nn.Module):
         origins, # Nx3
         directions, # Nx3
     ):
+        '''
+        Input:
+            implicit_fn: a module that computes a SDF at a query point
+            origins: N_rays X 3
+            directions: N_rays X 3
+        Output:
+            points: N_rays X 3 points indating ray-surface intersections.
+                Can have an arbitrary value if ray does not intersect.
+            mask: N_rays X 1 (boolean tensor)
+        '''
         # TODO (Q1): Implement sphere tracing
         # 1) Iteratively update points and distance to the closest surface
         #   in order to compute intersection points of rays with the implicit surface

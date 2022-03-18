@@ -1,0 +1,85 @@
+seed: 1
+
+type: train
+
+training:
+  num_epochs: 1000
+  batch_size: 4096
+  lr: 0.0005
+
+data:
+  image_size: [256, 256]
+
+  cameras:
+    cam0:
+      focal: 1.0
+      eye: [-2.5, 0.0, 0.0]
+      principal_point: [0.0, 0.0]
+      scene_center: [0.0, 0.0, 0.0]
+      up: [0.0, 1.0, 0.0]
+
+      image: "data/box_0.npy"
+
+    cam1:
+      focal: 1.0
+      eye: [-1.0, 0.0, -2.2]
+      principal_point: [0.0, 0.0]
+      scene_center: [0.0, 0.0, 0.0]
+      up: [0.0, 1.0, 0.0]
+
+      image: "data/box_1.npy"
+
+    cam2:
+      focal: 1.0
+      eye: [0.0, 0.0, -2.5]
+      principal_point: [0.0, 0.0]
+      scene_center: [0.0, 0.0, 0.0]
+      up: [0.0, 1.0, 0.0]
+
+      image: "data/box_2.npy"
+
+    cam3:
+      focal: 1.0
+      eye: [1.0, 0.0, -2.2]
+      principal_point: [0.0, 0.0]
+      scene_center: [0.0, 0.0, 0.0]
+      up: [0.0, 1.0, 0.0]
+
+      image: "data/box_3.npy"
+
+renderer:
+  type: volume
+  chunk_size: 32768
+
+sampler:
+  type: stratified
+  n_pts_per_ray: 64
+  min_depth: 0.0
+  max_depth: 5.0
+
+implicit_function:
+  type: sdf_volume
+
+  sdf:
+    type: box
+
+    side_lengths:
+      val: [1.5, 1.5, 1.5]
+      opt: True
+
+    center:
+      val: [0.0, 0.0, 0.0]
+      opt: True
+
+  feature:
+    rainbow: True
+    val: [1.0, 1.0, 1.0]
+    opt: False
+
+  alpha:
+    val: 1.0
+    opt: False
+
+  beta:
+    val: 0.05
+    opt: False

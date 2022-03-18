@@ -1,0 +1,38 @@
+seed: 1
+
+type: render
+
+data:
+  image_size: [256, 256]
+
+renderer:
+  type: sphere_tracing
+  chunk_size: 8192
+  near: 0.0
+  far: 5.0
+  max_iters: 64
+
+sampler:
+  type: stratified
+  n_pts_per_ray:
+  min_depth:
+  max_depth:
+
+implicit_function:
+  type: sdf_surface
+
+  sdf:
+    type: torus
+
+    center:
+      val: [0.0, 0.0, 0.0]
+      opt: True
+
+    radii:
+      val: [1.0, 0.25]
+      opt: False
+
+  feature:
+    rainbow: True
+    val: [1.0, 1.0, 1.0]
+    opt: False

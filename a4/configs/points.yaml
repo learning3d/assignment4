@@ -1,0 +1,52 @@
+seed: 1
+
+type: train_points
+
+data:
+  image_size: [256, 256]
+  point_cloud_path: a4/data/bunny_pointcloud.npz
+
+renderer:
+  type: sphere_tracing
+  chunk_size: 8192
+  near: 0.0
+  far: 5.0
+  max_iters: 64
+
+sampler:
+  type: stratified
+  n_pts_per_ray:
+  min_depth:
+  max_depth:
+
+training:
+  num_epochs: 5000
+  pretrain_iters: 250
+  batch_size: 4096
+  lr: 0.0001
+
+  lr_scheduler_step_size: 50
+  lr_scheduler_gamma: 0.8
+
+  checkpoint_path: ./points_checkpoint
+  checkpoint_interval: 100
+  resume: True
+
+  render_interval: 500
+
+  inter_weight: 0.1
+  eikonal_weight: 0.02
+  bounds: [[-4, -4, -4], [4, 4, 4]]
+
+implicit_function:
+  type: neural_surface
+
+  n_harmonic_functions_xyz: 4
+
+  n_layers_distance: 6
+  n_hidden_neurons_distance: 128
+  append_distance: []
+
+  n_layers_color: 2
+  n_hidden_neurons_color: 128
+  append_color: []

@@ -1,0 +1,43 @@
+seed: 1
+
+type: train_nerf
+
+training:
+  num_epochs: 10000
+  batch_size: 4096
+  lr: 0.0005
+
+  lr_scheduler_step_size: 1000
+  lr_scheduler_gamma: 0.9
+
+  checkpoint_path: ./checkpoints
+  checkpoint_interval: 1000
+  resume: True
+
+  render_interval: 10
+
+data:
+  image_size: [252, 189]
+  dataset_name: fern
+
+renderer:
+  type: volume
+  chunk_size: 32768
+
+sampler:
+  type: stratified
+  n_pts_per_ray: 64
+
+  min_depth: 1.2
+  max_depth: 6.28
+
+implicit_function:
+  type: nerf
+
+  n_harmonic_functions_xyz: 6
+  n_harmonic_functions_dir: 2
+  n_hidden_neurons_xyz: 128
+  n_hidden_neurons_dir: 64
+  density_noise_std: 0.0
+  n_layers_xyz: 6
+  append_xyz: [4]

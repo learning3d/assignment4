@@ -1,0 +1,47 @@
+seed: 1
+
+type: train_nerf
+
+training:
+  num_epochs: 250
+  batch_size: 1024
+  lr: 0.0005
+
+  lr_scheduler_step_size: 50
+  lr_scheduler_gamma: 0.8
+
+  checkpoint_path: ./checkpoints
+  checkpoint_interval: 50
+  resume: True
+
+  render_interval: 10
+
+data:
+  image_size: [400, 400]
+  dataset_name: lego
+
+renderer:
+  type: volume
+  chunk_size: 32768
+  white_background: False
+
+sampler:
+  type: stratified
+  n_pts_per_ray: 128
+
+  min_depth: 2.0
+  max_depth: 6.0
+
+implicit_function:
+  type: nerf
+
+  n_harmonic_functions_xyz: 6
+  n_harmonic_functions_dir: 2
+  n_hidden_neurons_xyz: 128
+  n_hidden_neurons_dir: 64
+  density_noise_std: 0.0
+  n_layers_xyz: 6
+  append_xyz: [3]
+
+
+

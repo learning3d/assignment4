@@ -31,7 +31,7 @@ In this part, you will implement an MLP architecture for a neural SDF, and train
 
 In this part you need to:
 
-* **Implement a MLP tp predict distance**: You should populate the `NeuralSurface` class in `a4/implicit.py`. For this part, you need to define a MLP that helps you predict a distance for any input point. More concretely, you would need to define some MLP(s) in  `__init__` function, and use these to implement the `get_distance` function for this class. Hint: you can use a similar MLP to what you used to predict density in Assignment 3, but remember that density and distance have different possible ranges!
+* **Implement a MLP to predict distance**: You should populate the `NeuralSurface` class in `a4/implicit.py`. For this part, you need to define a MLP that helps you predict a distance for any input point. More concretely, you would need to define some MLP(s) in  `__init__` function, and use these to implement the `get_distance` function for this class. Hint: you can use a similar MLP to what you used to predict density in Assignment 3, but remember that density and distance have different possible ranges!
 
 * **Implement Eikonal Constraint as a Loss**: Define the `eikonal_loss` in `a4/losses.py`.
 

@@ -127,6 +127,9 @@ class SDFSurface(torch.nn.Module):
             base_color = 1.0
 
         return base_color * self.feature * points.new_ones(points.shape[0], 1)
+    
+    def forward(self, points):
+        return self.get_distance(points)
 
 
 

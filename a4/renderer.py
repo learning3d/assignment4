@@ -30,8 +30,8 @@ class SphereTracingRenderer(torch.nn.Module):
             origins: N_rays X 3
             directions: N_rays X 3
         Output:
-            points: N_intersections X 3 points indating ray-surface intersections *only* for rays that intersect the surface,
-                    in order to avoid color queries for non-intersecting rays. All other rays are discarded.
+            points: N_rays X 3 points indicating ray-surface intersections. For rays that do not intersect the surface,
+                    the point can be arbitrary.
             mask: N_rays X 1 (boolean tensor) denoting which of the input rays intersect the surface.
         '''
         # TODO (Q1): Implement sphere tracing

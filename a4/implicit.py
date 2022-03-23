@@ -269,7 +269,7 @@ class NeuralSurface(torch.nn.Module):
     def forward(self, points):
         return self.get_distance(points)
 
-    def get_distance_gradient(
+    def get_distance_and_gradient(
         self,
         points
     ):
@@ -289,7 +289,7 @@ class NeuralSurface(torch.nn.Module):
                 only_inputs=True
             )[0]
         
-        return distance_feature, gradient
+        return distance, gradient
 
 
 implicit_dict = {

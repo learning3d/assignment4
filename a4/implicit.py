@@ -5,6 +5,7 @@ from torch import autograd
 
 from ray_utils import RayBundle
 
+from a4.lighting_functions import relighting_dict
 
 # Sphere SDF class
 class SphereSDF(torch.nn.Module):
@@ -293,6 +294,19 @@ class NeuralSurface(torch.nn.Module):
             )[0]
         
         return distance, gradient
+
+    def get_surface_normal(
+        self,
+        points
+    ):
+        '''
+        TODO: Q4
+        Input:
+            points: N X 3 Tensor, where N is number of input points
+        Output:
+            surface_normal: N X 3 Tensor, where N is number of input points
+        '''
+        pass
 
 
 implicit_dict = {

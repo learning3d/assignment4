@@ -1,6 +1,6 @@
 seed: 1
 
-type: train_images
+type: relight_images
 
 data:
   image_size: [128, 128]
@@ -15,7 +15,12 @@ renderer:
   beta: 0.05
 
   relighting_function:
-    type: none
+    type: phong
+
+    ks: 0.75
+    kd: 0.5
+    ka: 0.25
+    n: 10
 
 sampler:
   type: stratified

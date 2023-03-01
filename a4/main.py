@@ -29,6 +29,7 @@ from ray_utils import (
 from data_utils import (
     dataset_from_config,
     create_surround_cameras,
+    create_surround_lights,
     vis_grid,
     vis_rays,
 )
@@ -69,7 +70,8 @@ class Model(torch.nn.Module):
     
     def forward(
         self,
-        ray_bundle
+        ray_bundle,
+        light_dir=None
     ):
         # Call renderer with
         #  a) Implicit function
@@ -78,7 +80,8 @@ class Model(torch.nn.Module):
         return self.renderer(
             self.sampler,
             self.implicit_fn,
-            ray_bundle
+            ray_bundle,
+            light_dir
         )
 
 
@@ -87,7 +90,9 @@ def render_images(
     cameras,
     image_size,
     save=False,
-    file_prefix=''
+    file_prefix='',
+    lights=None,
+    feat='color'
 ):
     all_images = []
     device = list(model.parameters())[0].device
@@ -100,15 +105,22 @@ def render_images(
 
             # Get rays
             camera = camera.to(device)
+            light_dir = None
+            # We assume the object is placed at the origin
+            origin = torch.tensor([0.0, 0.0, 0.0], device=device) 
+            light_location = None if lights is None else lights[cam_idx].location.to(device)
+            if lights is not None:
+                light_dir = None #TODO: Use light location and origin to compute light direction
+                light_dir = torch.nn.functional.normalize(light_dir, dim=-1).view(-1, 3)
             xy_grid = get_pixels_from_image(image_size, camera)
             ray_bundle = get_rays_from_pixels(xy_grid, image_size, camera)
 
             # Run model forward
-            out = model(ray_bundle)
+            out = model(ray_bundle, light_dir)
 
         # Return rendered features (colors)
         image = np.array(
-            out['color'].view(
+            out[feat].view(
                 image_size[1], image_size[0], 3
             ).detach().cpu()
         )
@@ -406,6 +418,37 @@ def train_images(
                 print("Empty mesh")
                 pass
                 
+def relight_images(cfg):
+    checkpoint_path = os.path.join(
+        hydra.utils.get_original_cwd(),
+        cfg.training.checkpoint_path
+    )
+
+    if not os.path.isfile(checkpoint_path):
+        print("Make sure to train the model first!")
+        return
+
+    model = Model(cfg)
+    model.cuda()
+
+    # Load checkpoints
+    loaded_data = torch.load(checkpoint_path)
+    model.load_state_dict(loaded_data["model"])
+    model.eval()
+
+    lights, cameras = create_surround_lights(3.0, n_poses=20, up=(0.0, 0.0, 1.0), focal_length=2.0)
+    test_images = render_images(
+        model, cameras,
+        cfg.data.image_size, file_prefix='volsdf', lights=lights
+    )
+    imageio.mimsave('images/part_4.gif', [np.uint8(im * 255) for im in test_images])
+
+    test_images = render_images(
+        model, cameras,
+        cfg.data.image_size, file_prefix='volsdf_geometry', lights=lights, feat="geometry"
+    )
+    imageio.mimsave('images/part_4_geometry.gif', [np.uint8(im * 255) for im in test_images])
+
 
 @hydra.main(config_path='configs', config_name='torus')
 def main(cfg: DictConfig):
@@ -417,6 +460,8 @@ def main(cfg: DictConfig):
         train_points(cfg)
     elif cfg.type == 'train_images':
         train_images(cfg)
+    elif cfg.type == 'relight_images':
+        relight_images(cfg)
 
 
 if __name__ == "__main__":

@@ -4,6 +4,8 @@ from typing import List, Optional, Tuple
 from pytorch3d.renderer.cameras import CamerasBase
 import pdb
 
+from a4.lighting_functions import relighting_dict
+
 # Volume renderer which integrates color and density along rays
 # according to the equations defined in [Mildenhall et al. 2020]
 class SphereTracingRenderer(torch.nn.Module):
@@ -46,6 +48,7 @@ class SphereTracingRenderer(torch.nn.Module):
         sampler,
         implicit_fn,
         ray_bundle,
+        light_dir = None
     ):
         B = ray_bundle.shape[0]
 
@@ -102,6 +105,8 @@ class VolumeSDFRenderer(torch.nn.Module):
         self.alpha = cfg.alpha
         self.beta = cfg.beta
 
+        self.cfg = cfg
+
     def _compute_weights(
         self,
         deltas,
@@ -124,6 +129,7 @@ class VolumeSDFRenderer(torch.nn.Module):
         sampler,
         implicit_fn,
         ray_bundle,
+        light_dir = None
     ):
         B = ray_bundle.shape[0]
 
@@ -139,7 +145,6 @@ class VolumeSDFRenderer(torch.nn.Module):
 
             # Call implicit function with sample points
             distance, color = implicit_fn.get_distance_color(cur_ray_bundle.sample_points)
-            color = color.view(-1, n_pts, 3)
             density = None # TODO (Q3): convert SDF to density
 
             # Compute length of each ray segment
@@ -158,6 +163,23 @@ class VolumeSDFRenderer(torch.nn.Module):
                 density.view(-1, n_pts, 1)
             ) 
 
+            geometry_color = torch.zeros_like(color)
+            if light_dir is not None:
+                normals = implicit_fn.get_surface_normal(cur_ray_bundle.sample_points)
+                view_dirs = -cur_ray_bundle.directions.repeat(n_pts, 1)
+                geometry_color[color.sum(dim=1) > 1e-3] = torch.tensor([0.7, 0.7, 1.0]).to(color.device)
+                params = {"ka": self.cfg.relighting_function.ka, 
+                        "kd": self.cfg.relighting_function.kd, 
+                        "ks": self.cfg.relighting_function.ks,  
+                        "n": self.cfg.relighting_function.n # This is analogous to alpha in the Phong model
+                }
+                color = relighting_dict[self.cfg.relighting_function.type](normals, view_dirs, light_dir, params, color)
+                geometry_color = relighting_dict[self.cfg.relighting_function.type](normals, view_dirs, light_dir, params, geometry_color) 
+                geometry_color = self._aggregate(
+                    weights,
+                    geometry_color.view(-1, n_pts, geometry_color.shape[-1])
+                )
+
             # Compute color
             color = self._aggregate(
                 weights,
@@ -167,6 +189,7 @@ class VolumeSDFRenderer(torch.nn.Module):
             # Return
             cur_out = {
                 'color': color,
+                "geometry": geometry_color
             }
 
             chunk_outputs.append(cur_out)

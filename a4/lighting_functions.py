@@ -17,7 +17,7 @@ def phong(
     #   params: dict of Phong parameters
     #   colors: (N x d, 3) tensor of colors
     # Outputs:
-    #   illumination: (N, 3) tensor of shaded colors
+    #   illumination: (N x d, 3) tensor of shaded colors
     #
     # Note: You can use torch.clamp to clamp the dot products to [0, 1]
     # Assume the ambient light (i_a) is of unit intensity 

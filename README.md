@@ -238,14 +238,6 @@ In this question, you will implement Score Distillation Sampling (SDS) loss and 
 * All the reference timing is based on a A5000, 24G memory GPU, using default parameters.
 * Search for "### YOUR CODE HERE ###" to check the code sections to implement.
 * We provide basic logging and visualization code. You are welcome to modify them as you like, but remember to follow the deliverables specified in *Submission* section in each question.
-* Please follow the environment setup instructions from the previous assignment. In addition to those packages, you may need: 
-  - [diffusers](https://huggingface.co/docs/diffusers/en/installation#install-from-source)
-  - [nvdiffrast](https://nvlabs.github.io/nvdiffrast/)
-  - [pymeshlab](https://github.com/cnr-isti-vclab/PyMeshLab)
-  - [PyMCubes](https://github.com/pmneila/PyMCubes)
-
-  (feel free to install other packages if you need)
-
 
 
 ## 2.1 SDS Loss + Image Optimization (20 points)

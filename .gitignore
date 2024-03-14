@@ -1,12 +1,4 @@
-checkpoints
-outputs
-images/*.png
-data/*.png
-data/*.pth
-data/*_license.txt
-__pycache__/
-*.pth
-
-soln/images/
-soln/ta_images/
-soln/data/
+**/output**/**
+**__pycache__/**
+**.pyc
+**.pth

@@ -20,7 +20,7 @@ In the first part of this assignment, we will explore 3D Gaussian Splatting by b
 
 Notes:
 
-- All the reference timings are based on a A5000, 24G memory GPU, using default parameters.
+- Please run all code from the `Q1` folder for this section.
 - Search for `"### YOUR CODE HERE ###"` for areas where code should be written.
 - Please remember to follow the deliverables specified in the **Submission** section in each question.
 

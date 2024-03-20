@@ -112,7 +112,7 @@ class Gaussians:
         data["colours"] = torch.rand((len(means), 3), dtype=torch.float32)  # (N, 3)
 
         # Initializing quaternions to be the identity quaternion
-        quats = torch.ones((len(means), 4), dtype=torch.float32)  # (N, 4)
+        quats = torch.zeros((len(means), 4), dtype=torch.float32)  # (N, 4)
         quats[:, 0] = 1.0
         data["pre_act_quats"] = quats  # (N, 4)
 
@@ -140,7 +140,7 @@ class Gaussians:
         data["colours"] = torch.rand((num_points, 3), dtype=torch.float32)  # (N, 3)
 
         # Initializing quaternions to be the identity quaternion
-        quats = torch.ones((num_points, 4), dtype=torch.float32)  # (N, 4)
+        quats = torch.zeros((num_points, 4), dtype=torch.float32)  # (N, 4)
         quats[:, 0] = 1.0
         data["pre_act_quats"] = quats  # (N, 4)
 

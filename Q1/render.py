@@ -17,6 +17,7 @@ def create_renders(args):
 
     num_views = 32
     azims = np.linspace(-180, 180, num_views)
+    elevs = np.linspace(-180, 180, num_views)
 
     debug_root = os.path.join(args.out_path, "q1_render")
     if not os.path.exists(debug_root):
@@ -39,7 +40,7 @@ def create_renders(args):
     for i in tqdm(range(num_views), desc="Rendering"):
 
         dist = 6.0
-        R, T = look_at_view_transform(dist = dist, azim=azims[i], elev=30.0, up=((0, -1, 0),))
+        R, T = look_at_view_transform(dist = dist, azim=azims[i], elev=elevs[i], up=((0, -1, 0),))
         camera = PerspectiveCameras(
             focal_length=5.0 * dim/2.0, in_ndc=False,
             principal_point=((dim/2, dim/2),),
@@ -84,7 +85,7 @@ def get_args():
         help="Path to the directory where output should be saved to."
     )
     parser.add_argument(
-        "--data_path", default="./data/sledge.ply", type=str,
+        "--data_path", default="./data/chair.ply", type=str,
         help="Path to the pre-trained gaussian data to be rendered."
     )
     parser.add_argument(

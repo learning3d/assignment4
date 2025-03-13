@@ -8,7 +8,7 @@ from PIL import Image
 from tqdm import tqdm
 from model import Scene, Gaussians
 from torch.utils.data import DataLoader
-from data_utils import CowDataset, visualize_renders
+from data_utils import TruckDataset, visualize_renders
 from skimage.metrics import peak_signal_noise_ratio, structural_similarity
 
 def make_trainable(gaussians):
@@ -44,16 +44,16 @@ def run_training(args):
         os.makedirs(args.out_path, exist_ok=True)
 
     # Setting up dataset
-    train_dataset = CowDataset(root=args.data_path, split="train")
-    test_dataset = CowDataset(root=args.data_path, split="test")
+    train_dataset = TruckDataset(root=args.data_path, split="train")
+    test_dataset = TruckDataset(root=args.data_path, split="test")
 
     train_loader = DataLoader(
         train_dataset, batch_size=1, shuffle=True, num_workers=0,
-        drop_last=True, collate_fn=CowDataset.collate_fn
+        drop_last=True, collate_fn=TruckDataset.collate_fn
     )
     test_loader = DataLoader(
         test_dataset, batch_size=1, shuffle=False, num_workers=0,
-        drop_last=True, collate_fn=CowDataset.collate_fn
+        drop_last=True, collate_fn=TruckDataset.collate_fn
     )
     train_itr = iter(train_loader)
 
@@ -133,7 +133,7 @@ def run_training(args):
     frames = []
     viz_loader = DataLoader(
         train_dataset, batch_size=1, shuffle=False, num_workers=0,
-        drop_last=True, collate_fn=CowDataset.collate_fn
+        drop_last=True, collate_fn=TruckDataset.collate_fn
     )
     for viz_data in tqdm(viz_loader, desc="Creating Visualization"):
         gt_img, camera, gt_mask = viz_data
@@ -202,7 +202,7 @@ def get_args():
         help="Path to the directory where output should be saved to."
     )
     parser.add_argument(
-        "--data_path", default="./data/cow_dataset", type=str,
+        "--data_path", default="./data/truck", type=str,
         help="Path to the dataset."
     )
     parser.add_argument(

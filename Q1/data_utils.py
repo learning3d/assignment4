@@ -13,7 +13,7 @@ SH_C0 = 0.28209479177387814
 CMAP_JET = plt.get_cmap("jet")
 CMAP_MIN_NORM, CMAP_MAX_NORM = 5.0, 7.0
 
-class CowDataset(Dataset):
+class TruckDataset(Dataset):
 
     def __init__(self, root, split):
         super().__init__()
@@ -40,8 +40,8 @@ class CowDataset(Dataset):
         idxs = train_idxs if self.split == "train" else test_idxs
 
         for i in idxs:
-            img_path = os.path.join(imgs_root, f"{i:03d}.png")
-            npy_path = os.path.join(poses_root, f"{i:03d}.npy")
+            img_path = os.path.join(imgs_root, f"frame{i+1:06d}.jpg")
+            npy_path = os.path.join(poses_root, f"frame{i+1:06d}.npy")
 
             img_ = imageio.v3.imread(img_path).astype(np.float32) / 255.0
 
@@ -51,28 +51,26 @@ class CowDataset(Dataset):
             else:
                 img = torch.tensor(img_[..., :3])  # (H, W, 3)
                 mask = torch.tensor(img_[..., 3:4])  # (H, W, 1)
-
+                
             img_size = img.shape[:2]
-            dim = img_size[0]
-            if img_size[0] != img_size[1]:
-                raise RuntimeError
-
+            h, w = img_size
+            
             # Checking if all data samples have the same image size
             if data_img_size is None:
-                data_img_size = img_size
+                data_img_size = (w,h) 
             else:
-                if data_img_size[0] != img_size[0] or data_img_size[1] != img_size[1]:
+                if data_img_size[0] != img_size[1] or data_img_size[1] != img_size[0]:
                     raise RuntimeError
 
             pose = np.load(npy_path)
-            dist, ele, az = pose.flatten()
-            R, T = look_at_view_transform(dist, ele, az)
-
-            img_size = img.shape[:2]
+            R, T, F, C = pose[:9].reshape((3,3)), pose[9:12], pose[12:14], pose[14:16]
+            
             camera = PerspectiveCameras(
-                focal_length=5.0 * dim/2.0, in_ndc=False,
-                principal_point=((dim/2, dim/2),),
-                R=R, T=T, image_size=(img_size,),
+                focal_length=torch.tensor(F, dtype=torch.float)[None], 
+                principal_point=torch.tensor(C, dtype=torch.float)[None],
+                R=torch.tensor(R, dtype=torch.float)[None], 
+                T=torch.tensor(T, dtype=torch.float)[None],
+                image_size=((h,w),)
             )
 
             self.images.append(img)

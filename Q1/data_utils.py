@@ -65,11 +65,16 @@ class TruckDataset(Dataset):
             pose = np.load(npy_path)
             R, T, F, C = pose[:9].reshape((3,3)), pose[9:12], pose[12:14], pose[14:16]
             
+            # Screen space camera
+            F = F * min(img_size) / 2 
+            C = w / 2 - C[0] * min(img_size) / 2, h / 2 - C[1] * min(img_size) / 2  
+
             camera = PerspectiveCameras(
                 focal_length=torch.tensor(F, dtype=torch.float)[None], 
                 principal_point=torch.tensor(C, dtype=torch.float)[None],
                 R=torch.tensor(R, dtype=torch.float)[None], 
                 T=torch.tensor(T, dtype=torch.float)[None],
+                in_ndc=False,
                 image_size=((h,w),)
             )
 
@@ -101,6 +106,7 @@ class TruckDataset(Dataset):
             masks = torch.stack(masks, dim=0)
 
         return images, cameras, masks
+
 
 def colour_depth_q1_render(depth):
     normalized_depth = (depth - CMAP_MIN_NORM) / (CMAP_MAX_NORM - CMAP_MIN_NORM + 1e-8)

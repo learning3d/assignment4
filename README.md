@@ -1,7 +1,7 @@
 # 16-825 Assignment 4
 
 ## Table of Contents
- - [0. Environment Setup(#0-environment-setup)]
+ - [0. Environment Setup](#0-environment-setup)
  - [1. 3D Gaussian Splatting (60 points)]
     - [1.1 3D Gaussian Rasterization (35)]
     - [1.2 Training 3D Gaussian Representations (15)]

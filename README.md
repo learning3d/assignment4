@@ -7,9 +7,9 @@
     - [1.2 Training 3D Gaussian Representations (15)](#12-training-3d-gaussian-representations-15-points)
     - [1.3 Extensions (10 + 20 Extra)](#13-extension-choose-at-least-one-more-than-one-is-extra-credit)
  - [2. Diffusion-guided Optimization (60 points)](#2-diffusion-guided-optimization)
-    - [2.1 SDS Loss + Image Optimization (20)](#21-sds-loss-image-optimization-15-points)
+    - [2.1 SDS Loss + Image Optimization (20)](#21-sds-loss-image-optimization-20-points)
     - [2.2 Texture Map Optimization for Mesh (15)](#22-texture-map-optimization-for-mesh-15-points)
-    - [2.3 NeRF Optimization (15)](#23-nerf-optimization-20-points)
+    - [2.3 NeRF Optimization (15)](#23-nerf-optimization-15-points)
     - [2.4 Extensions (10 + 20 Extra)](#24-extensions-choose-at-least-one-more-than-one-is-extra-credit)
 
 
@@ -185,8 +185,7 @@ Feel free to experiment with different learning rate values and number of iterat
 > - The PSNR and SSIM.
 > - Both the GIFs output by `train.py`.
 
-## 1.3 Extensions **(Choose at least one! More than one is extra credit)**
-
+## 1.3 Extensions (Choose at least one! More than one is extra credit)
 ### 1.3.1 Rendering Using Spherical Harmonics (10 Points)
 
 In the previous sections, we implemented a 3D Gaussian rasterizer that is view independent. However, scenes often contain elements whose apperance looks different when viewed from a different direction (for example, reflections on a shiny surface). To model these view dependent effects, the authors of the 3D Gaussian Splatting paper use spherical harmonics.

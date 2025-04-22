@@ -2,15 +2,15 @@
 
 ## Table of Contents
  - [0. Environment Setup](#0-environment-setup)
- - [1. 3D Gaussian Splatting (60 points)]
-    - [1.1 3D Gaussian Rasterization (35)]
-    - [1.2 Training 3D Gaussian Representations (15)]
-    - [1.3 Extensions (10 + 20 Extra)]
- - [2. Diffusion-guided Optimization (60 points)]
-    - [2.1 SDS Loss + Image Optimization (20)]
-    - [2.2 Texture Map Optimization for Mesh (15)]
-    - [2.3 NeRF Optimization (15)]
-    - [2.4 Extensions (10 + 20 Extra)]
+ - [1. 3D Gaussian Splatting (60 points)](#1-3d-gaussian-splatting)
+    - [1.1 3D Gaussian Rasterization (35)](#1-1-3d-gaussian-rasterization)
+    - [1.2 Training 3D Gaussian Representations (15)(#1-3d-gaussian-splatting)]
+    - [1.3 Extensions (10 + 20 Extra)(#1-3d-gaussian-splatting)]
+ - [2. Diffusion-guided Optimization (60 points)(#1-3d-gaussian-splatting)]
+    - [2.1 SDS Loss + Image Optimization (20)(#1-3d-gaussian-splatting)]
+    - [2.2 Texture Map Optimization for Mesh (15)(#1-3d-gaussian-splatting)]
+    - [2.3 NeRF Optimization (15)(#1-3d-gaussian-splatting)]
+    - [2.4 Extensions (10 + 20 Extra)(#1-3d-gaussian-splatting)]
 
 
 # 0. Environment Setup

@@ -3,16 +3,11 @@ import os
 import os.path as osp
 import time
 
-import numpy as np
 import pytorch3d
 import torch
 from implicit import ColorField
 from PIL import Image
-from pytorch3d.renderer import (
-    FoVPerspectiveCameras,
-    TexturesVertex,
-    look_at_view_transform,
-)
+from pytorch3d.renderer import TexturesVertex
 from SDS import SDS
 from tqdm import tqdm
 from utils import (
@@ -154,7 +149,7 @@ if __name__ == "__main__":
         "--mesh_path",
         type=str,
         default="data/cow.obj",
-        help="Path to the input image",
+        help="Path to the input mesh",
     )
     args = parser.parse_args()
 

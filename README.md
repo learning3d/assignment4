@@ -1,29 +1,14 @@
 # 16-825 Assignment 4
 
-## Table of Contents
- - [0. Environment Setup](#0-environment-setup)
- - [1. 3D Gaussian Splatting (60 points)](#1-3d-gaussian-splatting)
-    - [1.1 3D Gaussian Rasterization (35)](#11-3d-gaussian-rasterization-35-points)
-    - [1.2 Training 3D Gaussian Representations (15)](#12-training-3d-gaussian-representations-15-points)
-    - [1.3 Extensions (10 + 20 Extra)](#13-extensions-choose-at-least-one-more-than-one-is-extra-credit)
- - [2. Diffusion-guided Optimization (60 points)](#2-diffusion-guided-optimization)
-    - [2.1 SDS Loss and Image Optimization (20)](#21-sds-loss-and-image-optimization-20-points)
-    - [2.2 Texture Map Optimization for Mesh (15)](#22-texture-map-optimization-for-mesh-15-points)
-    - [2.3 NeRF Optimization (15)](#23-nerf-optimization-15-points)
-    - [2.4 Extensions (10 + 20 Extra)](#24-extensions-choose-at-least-one-more-than-one-is-extra-credit)
-
-
 # 0. Environment Setup
 
-- Please follow the environment setup instructions from the previous assignment. In addition to those packages, you may need: 
-  - plyfile
-  - scikit-image
-  - [diffusers](https://huggingface.co/docs/diffusers/en/installation#install-from-source)
-  - [nvdiffrast](https://nvlabs.github.io/nvdiffrast/)
-  - [pymeshlab](https://github.com/cnr-isti-vclab/PyMeshLab)
-  - [PyMCubes](https://github.com/pmneila/PyMCubes)
+- Please follow the environment setup instructions from the previous assignment.
 
-- Feel free to install other packages if required.
+Also, run the following to install the packages specific for this assignment:
+
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
@@ -185,7 +170,8 @@ Feel free to experiment with different learning rate values and number of iterat
 > - The PSNR and SSIM.
 > - Both the GIFs output by `train.py`.
 
-## 1.3 Extensions (Choose at least one! More than one is extra credit)
+## 1.3 Extensions **(Choose at least one! More than one is extra credit)**
+
 ### 1.3.1 Rendering Using Spherical Harmonics (10 Points)
 
 In the previous sections, we implemented a 3D Gaussian rasterizer that is view independent. However, scenes often contain elements whose apperance looks different when viewed from a different direction (for example, reflections on a shiny surface). To model these view dependent effects, the authors of the 3D Gaussian Splatting paper use spherical harmonics.
@@ -252,7 +238,7 @@ In this question, you will implement Score Distillation Sampling (SDS) loss and 
 * We provide basic logging and visualization code. You are welcome to modify them as you like, but remember to follow the deliverables specified in *Submission* section in each question.
 
 
-## 2.1 SDS Loss and Image Optimization (20 points)
+## 2.1 SDS Loss + Image Optimization (20 points)
 First, you will implement the SDS loss. We provide a skeleton code in `SDS.py` and you will fill up the `sds_loss` function. Hint: follow the [DreamFusion](https://arxiv.org/pdf/2209.14988.pdf) paper (Fig. 3) and the step-by-step guide in the comments. We provide `prepare_embeddings` in `utils.py` that compute the text embedding given text prompts. Take a look at what it is returning and then implement the followings:
 
 *  Implement SDS without guidance, i.e. with positive prompts only (`text_embeddings_uncond is None`). (10 pts)

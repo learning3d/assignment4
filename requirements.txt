@@ -1,0 +1,11 @@
+plyfile
+scikit-image
+diffusers[torch]
+transformers
+git+https://github.com/NVlabs/nvdiffrast.git
+opencv-python
+pymeshlab
+PyMCubes
+rich
+torch-ema
+torchmetrics
